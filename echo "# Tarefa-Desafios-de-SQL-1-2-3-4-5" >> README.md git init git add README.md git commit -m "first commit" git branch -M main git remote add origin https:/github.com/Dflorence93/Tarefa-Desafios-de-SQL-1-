@@ -1,0 +1,40 @@
+Agora que você já deu os primeiros passos com a linguagem SQL, é hora de exercitar os conhecimentos adquiridos.Neste link você encontrará a base de dados que irá trabalhar durante o curso. Basta baixá-la e abri-la com o DB Browser.
+
+Queries:
+Com a base de dados aberta, crie queries que:
+selecione os dados da tabela de pagamentos onde só apareçam os tipos de pagamento “VOUCHER” e “BOLETO”.
+
+select payment_type as tipos_pagamentos
+from olist_order_payments_dataset
+where payment_type in ('voucher' , 'boleto')
+
+retorne os campos da tabela de produtos e calcule o volume de cada produto em um novo campo.
+
+select DISTINCT product_category_name as nome_categoria, count(*) as qtd
+from olist_products_dataset
+GROUP by product_category_name 
+
+retorne somente os reviews que não tem comentários.
+
+select review_comment_message ,
+review_comment_title 
+from olist_order_reviews_dataset
+WHERE review_comment_message is null 
+and review_comment_title is null
+
+retorne pedidos que foram feitos somente no ano de 2017.
+
+ELECT  shipping_limit_date as data_pedido
+from olist_order_items_dataset
+where shipping_limit_date like ('2017%')
+
+encontre os clientes do estado de SP e que não morem na cidade de São Paulo.
+
+SELECT customer_state as estado,
+customer_city as cidade
+from olist_customers_dataset
+where cidade is not 'sao paulo'
+
+
+
+
