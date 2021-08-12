@@ -1,0 +1,48 @@
+Agora que você já está um pouco mais confortável com a linguagem SQL e com a base de dados que será utilizada durante sua jornada de Data Analytics,
+chegamos ao segundo grupo de SQL.
+
+retorne a quantidade de itens vendidos em cada categoria por estado em que o cliente se encontra,
+mostrando somente categorias que tenham vendido uma quantidade de items acima de 1000.
+
+
+SELECT p.product_category_name, count(*)as qtd_itens,
+    s.seller_state as estado
+from olist_products_dataset as p
+INNER join olist_order_items_dataset as o
+on p.product_id = o.product_id
+INNER join olist_sellers_dataset as s
+on s.seller_id = o.seller_id
+group by p.product_category_name,s.seller_state 
+HAVING count(*) > 1000
+
+
+mostre os 5 clientes (customer_id) que gastaram mais dinheiro em compras, qual foi o valor total de todas as compras deles,
+quantidade de compras, e valor médio gasto por compras. Ordene os mesmos por ordem decrescente pela média do valor de compra.
+
+SELECT sum(p.payment_value) as valor, count(*)as qtd ,
+avg(p.payment_value) as media,
+ d.customer_id as cliente
+from olist_orders_dataset as d
+LEFT JOIN olist_customers_dataset as c
+on d.customer_id = c.customer_id
+LEFT join olist_order_payments_dataset as p
+on d.order_id = p.order_id
+GROUP by  d.customer_id 
+ORDER by 1 DESC
+LIMIT 5
+
+mostre o valor vendido total de cada vendedor (seller_id) em cada uma das categorias de produtos,
+somente retornando os vendedores que nesse somatório e agrupamento venderam mais de $1000.
+Desejamos ver a categoria do produto e os vendedores. Para cada uma dessas categorias, mostre seus valores de venda de forma decrescente.
+
+SELECT  o.seller_id as vendedor,
+       p.product_category_name as categoria_produtos,
+	   sum(o.price) as soma_preço
+	   
+from olist_order_items_dataset as o
+inner JOIN olist_products_dataset as p
+on o.product_id = p.product_id
+GROUP by vendedor, categoria_produtos
+HAVING sum(o.price) > 1000
+ORDER by
+soma_preço desc
